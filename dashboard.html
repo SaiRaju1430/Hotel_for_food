@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0; font-family:Arial; background:#f4f4f4; display:flex; justify-content:center; align-items:center; min-height:100vh;}
+.dashboard{background:white; padding:20px; border-radius:15px; width:95%; max-width:400px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.2);}
+h1{margin-bottom:10px; font-size:6vw;}
+.stat{background:#ff416c; color:white; padding:12px; margin:12px 0; border-radius:10px; font-size:5vw;}
+input{width:80%; padding:10px; margin:5px; border-radius:6px; border:1px solid #ccc; font-size:4vw;}
+button{width:80%; padding:10px; margin-top:8px; font-size:4vw; background:#28a745; color:white; border:none; border-radius:6px; cursor:pointer;}
+button:hover{background:#218838;}
+.reset{background:red;}
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+<h1>📊 Admin Dashboard</h1>
+<h3 id="date"></h3>
+<div class="stat">Total Deliveries: <span id="orders"></span></div>
+<div class="stat">Total Amount: ₹<span id="money"></span></div>
+
+<h3>Edit Data</h3>
+<input type="number" id="editOrders" placeholder="Edit Order Count"><br>
+<input type="number" id="editMoney" placeholder="Edit Total Amount"><br>
+<button onclick="updateData()">Update</button>
+<button class="reset" onclick="resetToday()">Reset Today</button>
+</div>
+
+<script>
+let today=new Date().toISOString().split("T")[0];
+document.getElementById("date").innerText="Date: "+today;
+let orderKey="orders_"+today, moneyKey="money_"+today;
+
+function loadData(){
+    document.getElementById("orders").innerText=localStorage.getItem(orderKey)||0;
+    document.getElementById("money").innerText=localStorage.getItem(moneyKey)||0;
+}
+
+function updateData(){
+    let newOrders=document.getElementById("editOrders").value;
+    let newMoney=document.getElementById("editMoney").value;
+    if(newOrders!=="") localStorage.setItem(orderKey,newOrders);
+    if(newMoney!=="") localStorage.setItem(moneyKey,newMoney);
+    loadData();
+}
+
+function resetToday(){
+    localStorage.removeItem(orderKey);
+    localStorage.removeItem(moneyKey);
+    loadData();
+}
+
+loadData();
+// Auto refresh every 1 minute
+setInterval(loadData,60000);
+</script>
+
+</body>
+</html>
