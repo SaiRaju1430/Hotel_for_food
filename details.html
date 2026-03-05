@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Order Details</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0; font-family:Arial; background:linear-gradient(135deg,#ff4b2b,#ff416c); display:flex; justify-content:center; align-items:center; min-height:100vh;}
+.form-box{background:white; padding:30px; border-radius:15px; width:90%; max-width:350px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.2);}
+input{width:90%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc; font-size:4vw;}
+button{width:95%; padding:12px; margin-top:10px; background:#28a745; color:white; border:none; border-radius:8px; font-size:4vw; cursor:pointer;}
+button:hover{background:#218838;}
+</style>
+</head>
+<body>
+
+<div class="form-box">
+<h2>Enter Your Details</h2>
+<input type="text" id="name" placeholder="Your Name">
+<input type="number" id="number" placeholder="Mobile Number">
+<input type="number" id="quantity" placeholder="Quantity" value="1" min="1">
+<button onclick="submitOrder()">Submit Order</button>
+</div>
+
+<script>
+function submitOrder(){
+    let name=document.getElementById("name").value;
+    let number=document.getElementById("number").value;
+    let qty=parseInt(document.getElementById("quantity").value);
+    if(!name||!number||!qty){alert("Fill all details"); return;}
+    
+    let item=localStorage.getItem("selectedItem");
+    let price=parseInt(localStorage.getItem("selectedPrice"));
+    let total=price*qty;
+
+    let today=new Date().toISOString().split("T")[0];
+    let orderKey="orders_"+today;
+    let moneyKey="money_"+today;
+
+    let count=parseInt(localStorage.getItem(orderKey)||0);
+    count+=qty; localStorage.setItem(orderKey,count);
+    let money=parseInt(localStorage.getItem(moneyKey)||0);
+    money+=total; localStorage.setItem(moneyKey,money);
+
+    let message=`New Order:%0AName: ${name}%0ANumber: ${number}%0AItem: ${item}%0AQuantity: ${qty}%0ATotal: ₹${total}`;
+    window.location.href=`https://wa.me/919515639193?text=${message}`;
+    alert("Order submitted! WhatsApp will open to send details.");
+    window.location.href="order.html";
+}
+</script>
+
+</body>
+</html>

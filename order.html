@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Order Items</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Arial; background:#f8f9fa; text-align:center; margin:0; padding:0;}
+h2{padding:15px; background:#ff4b2b; color:white; font-size:5vw; margin:0;}
+.menu{display:flex; flex-direction:column; gap:15px; padding:20px;}
+.card{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+button{
+    padding:10px 20px;
+    background:#ff416c;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:4vw;
+}
+button:hover{background:#ff4b2b;}
+@media(min-width:600px){
+    .menu{flex-direction:row; flex-wrap:wrap; justify-content:center;}
+    .card{width:45%; margin:5px;}
+}
+</style>
+</head>
+<body>
+
+<h2>🛒 Select Item</h2>
+
+<div class="menu">
+    <div class="card"><span>Bath Items</span><button onclick="selectItem('Bath Item')">Order</button></div>
+    <div class="card"><span>Food Items</span><button onclick="selectItem('Food Item')">Order</button></div>
+    <div class="card"><span>Chicken Rice - ₹100</span><button onclick="selectItem('Chicken Rice')">Order</button></div>
+    <div class="card"><span>Biryani - ₹100</span><button onclick="selectItem('Biryani')">Order</button></div>
+    <div class="card"><span>Parota - ₹100</span><button onclick="selectItem('Parota')">Order</button></div>
+</div>
+
+<script>
+function selectItem(item){
+    localStorage.setItem("selectedItem", item);
+    if(item==="Chicken Rice"||item==="Biryani"||item==="Parota") localStorage.setItem("selectedPrice",100);
+    else localStorage.setItem("selectedPrice",50);
+    window.location.href="details.html";
+}
+</script>
+
+</body>
+</html>
